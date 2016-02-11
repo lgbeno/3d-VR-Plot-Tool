@@ -6,13 +6,18 @@ using System.IO;
 public class helloVR_PlotLoader : MonoBehaviour {
 	private Vector3 offset;
 	private Quaternion angles;
+	public string DataFile;
+	public string Object;
+	public Vector3 scale_factor;
+
+
 	public GameObject plotPointPrefab;
 
 	// Use this for initialization
 	void Start () {
 		offset = transform.position;
 		angles = transform.rotation;
-		Load("C://DataSet.csv");
+		Load(DataFile);
 	}
 
 	// Update is called once per frame
@@ -46,9 +51,9 @@ public class helloVR_PlotLoader : MonoBehaviour {
 						string[] entries = line.Split(',');
 						if (entries.Length > 0)
 						{
-							if (entries[0]=="C4") {
-							Vector3 point_position = new Vector3(float.Parse(entries[1])*2,float.Parse(entries[2])*2,float.Parse(entries[3])*2);
-							GameObject bPrefab = Instantiate(plotPointPrefab, point_position, Quaternion.identity) as GameObject;
+						if (entries[0]==Object) {
+							Vector3 point_position = new Vector3(float.Parse(entries[1])*scale_factor.x,float.Parse(entries[2])*scale_factor.y,float.Parse(entries[3])*scale_factor.x);
+							GameObject bPrefab = Instantiate(plotPointPrefab, point_position+offset, Quaternion.identity) as GameObject;
 							}
 						}
 
